@@ -4,7 +4,6 @@ import { User } from '../model/User'
 const filePath = '../db/db.json';
 
 function addUser(user: User) {
-    
     let users: User[] = checkAndReturnUsersIfFileExists(filePath);
 
     let userAlreadyExists = users.find(existingUser => existingUser.id === user.id);
@@ -16,7 +15,7 @@ function addUser(user: User) {
     users.push(user);
 
     fs.writeFileSync(filePath, JSON.stringify(users, null, 2), 'utf-8');
-    console.log('User added successfully.');
+    console.info('User added successfully.');
 }
 
 function removeUser(id: number): void {
@@ -25,12 +24,11 @@ function removeUser(id: number): void {
     let userFilter = users.filter(existingUser => existingUser.id !== id);
 
     fs.writeFileSync(filePath, JSON.stringify(userFilter, null, 2), 'utf-8');
-    console.log('User removed successfully.');
+    console.info('User removed successfully.');
 }
 
 function getUser(id: number): User | null {
     let result = JSON.parse(fs.readFileSync('../db/db.json', 'utf-8')); // ver opção mais leve, se não me engano create read stream pode ser mais leve
-    console.log(result);
     const user = result.find((element: { id: number; }) => element.id === id);
     
     return user === undefined ? null : user;
